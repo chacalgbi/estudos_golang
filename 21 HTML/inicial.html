@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teste HTML</title>
+</head>
+<body>
+  <h1>Bem-vindo ao meu site de teste!</h1>
+  <p>Este é apenas um exemplo de um arquivo HTML básico.</p>
+  <p>Fique à vontade para editar e adicionar mais conteúdo.</p>
+  <p style="color: brown;">Usuário: {{ .Nome }}</p>
+  <p>Email:   {{ .Email }}</p>
+  <button id="botao">Enviar</button>
+
+  <script>
+    botao = document.getElementById('botao');
+    botao.addEventListener('click', function() {
+      alert('Botão clicado!');
+    });
+
+  </script>
+</body>
+</html>
