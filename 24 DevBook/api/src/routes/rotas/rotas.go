@@ -7,14 +7,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type rota struct {
+type Rota struct {
 	URI                string
 	Metodo             string
 	Funcao             func(w http.ResponseWriter, r *http.Request)
 	RequerAutenticacao bool
 }
 
-var rotasUsuarios = []rota{
+var rotasUsuarios = []Rota{
 	{
 		URI:                "/usuarios",
 		Metodo:             http.MethodPost,
@@ -48,7 +48,9 @@ var rotasUsuarios = []rota{
 }
 
 func Configurar(r *mux.Router) *mux.Router {
-	for _, rota := range rotasUsuarios {
+	rotas := rotasUsuarios
+	rotas = append(rotas, rotaLogin)
+	for _, rota := range rotas {
 		r.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
 	}
 	return r
