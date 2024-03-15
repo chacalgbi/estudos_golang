@@ -47,6 +47,7 @@ func CriarUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user.Senha = ""
 	resposta.JSON(w, http.StatusCreated, user)
 }
 
