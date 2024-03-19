@@ -25,5 +25,6 @@ func Carregar() {
 		Porta = 9000
 	}
 
-	StringConexaoBanco = "user=" + os.Getenv("DB_USER") + " password=" + os.Getenv("DB_PASSWORD") + " dbname=" + os.Getenv("DB_NAME") + " sslmode=" + os.Getenv("DB_SSLMODE")
+	// StringConexaoBanco = "user=" + os.Getenv("DB_USER") + " password=" + os.Getenv("DB_PASSWORD") + " dbname=" + os.Getenv("DB_NAME") + " sslmode=" + os.Getenv("DB_SSLMODE")
+	StringConexaoBanco = os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASSWORD") + "@/" + os.Getenv("DB_NAME") + "?charset=utf8&parseTime=True&loc=Local"
 }

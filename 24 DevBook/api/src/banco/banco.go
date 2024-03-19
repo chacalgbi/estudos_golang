@@ -4,11 +4,15 @@ import (
 	"api/src/config"
 	"database/sql"
 
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
+// _ "github.com/lib/pq"
+
 func Conectar() (*sql.DB, error) {
-	db, erro := sql.Open("postgres", config.StringConexaoBanco)
+	tipoBanco := "mysql"
+	// tipoBanco := "postgres"
+	db, erro := sql.Open(tipoBanco, config.StringConexaoBanco)
 
 	if erro != nil {
 		return nil, erro

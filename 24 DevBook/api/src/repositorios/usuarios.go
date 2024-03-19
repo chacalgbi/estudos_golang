@@ -24,13 +24,17 @@ func (banco Db_user) Criar(usuario modelos.Usuario) (uint64, error) {
 	}
 	defer statement.Close()
 
-	var idInserido uint64
-	erro = statement.QueryRow(usuario.Nome, usuario.Nick, usuario.Email, usuario.Senha).Scan(&idInserido)
+	resultado, erro := statement.Exec(usuario.Nome, usuario.Nick, usuario.Email, usuario.Senha)
 	if erro != nil {
 		return 0, erro
 	}
 
-	return idInserido, nil
+	idInserido, erro := resultado.LastInsertId()
+	if erro != nil {
+		return 0, erro
+	}
+
+	return uint64(idInserido), nil
 }
 
 func (banco Db_user) Buscar(nomeOuNick string) ([]modelos.Usuario, error) {
@@ -97,4 +101,21 @@ func (banco Db_user) Deletar(id uint64) error {
 	}
 
 	return nil
+}
+
+func (banco Db_user) BuscarPorEmail(email string) (modelos.Usuario, error) {
+	linha, erro := banco.db.Query(queries.Q.BuscarPorEmail, email)
+	if erro != nil {
+		return modelos.Usuario{}, erro
+	}
+	defer linha.Close()
+
+	var usuario modelos.Usuario
+	if linha.Next() {
+		if erro = linha.Scan(&usuario.ID, &usuario.Senha); erro != nil {
+			return modelos.Usuario{}, erro
+		}
+	}
+
+	return usuario, nil
 }

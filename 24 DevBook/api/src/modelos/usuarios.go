@@ -15,7 +15,7 @@ type Usuario struct {
 	Nick     string    `json:"nick,omitempty"`
 	Email    string    `json:"email,omitempty"`
 	Senha    string    `json:"senha,omitempty"`
-	CriadoEm time.Time `json:"criado_em,omitempty"`
+	CriadoEm time.Time `json:"criadoEm,omitempty"`
 }
 
 func (u *Usuario) Preparar(etapa string) error {
