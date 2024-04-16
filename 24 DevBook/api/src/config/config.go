@@ -11,6 +11,7 @@ import (
 var (
 	StringConexaoBanco = ""
 	Porta              = 0
+	SecretKey          []byte
 )
 
 func Carregar() {
@@ -24,6 +25,8 @@ func Carregar() {
 	if erro != nil {
 		Porta = 9000
 	}
+
+	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 
 	// StringConexaoBanco = "user=" + os.Getenv("DB_USER") + " password=" + os.Getenv("DB_PASSWORD") + " dbname=" + os.Getenv("DB_NAME") + " sslmode=" + os.Getenv("DB_SSLMODE")
 	StringConexaoBanco = os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASSWORD") + "@/" + os.Getenv("DB_NAME") + "?charset=utf8&parseTime=True&loc=Local"
