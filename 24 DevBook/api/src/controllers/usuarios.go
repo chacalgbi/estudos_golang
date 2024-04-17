@@ -247,6 +247,31 @@ func PararDeSeguirUsuario(w http.ResponseWriter, r *http.Request) {
 	resposta.JSON(w, http.StatusNoContent, nil)
 }
 
+func BuscarSeguidores(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, erro := strconv.ParseUint(params["usuarioId"], 10, 64)
+	if erro != nil {
+		resposta.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		resposta.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositorioDeUsuarios(db)
+	seguidores, erro := repositorio.BuscarSeguidores(id)
+	if erro != nil {
+		resposta.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	resposta.JSON(w, http.StatusOK, seguidores)
+}
+
 func compararId(id uint64, w http.ResponseWriter, r *http.Request) bool {
 	usuarioIDNotoken, erro := autenticacao.ExtrairUsuarioID(r)
 	if erro != nil {
