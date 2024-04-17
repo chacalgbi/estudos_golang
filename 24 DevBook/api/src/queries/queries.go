@@ -8,6 +8,7 @@ type Queries struct {
 	DeletarUsuario     string
 	BuscarPorEmail     string
 	SeguirUsuario      string
+	PararDeSeguir      string
 }
 
 // Postgres queries
@@ -29,4 +30,5 @@ var Q = Queries{
 	DeletarUsuario:     "DELETE FROM usuarios WHERE id = ?",
 	BuscarPorEmail:     "SELECT id, senha FROM usuarios WHERE email = ?",
 	SeguirUsuario:      "INSERT ignore INTO seguidores (usuario_id, seguidor_id) VALUES (?, ?)",
+	PararDeSeguir:      "DELETE FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?",
 }
