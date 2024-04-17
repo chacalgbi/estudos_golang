@@ -7,6 +7,7 @@ type Queries struct {
 	AtualizarUsuario   string
 	DeletarUsuario     string
 	BuscarPorEmail     string
+	SeguirUsuario      string
 }
 
 // Postgres queries
@@ -27,4 +28,5 @@ var Q = Queries{
 	AtualizarUsuario:   "UPDATE usuarios SET nome = ?, nick = ?, email = ? WHERE id = ?",
 	DeletarUsuario:     "DELETE FROM usuarios WHERE id = ?",
 	BuscarPorEmail:     "SELECT id, senha FROM usuarios WHERE email = ?",
+	SeguirUsuario:      "INSERT ignore INTO seguidores (usuario_id, seguidor_id) VALUES (?, ?)",
 }

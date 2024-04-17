@@ -119,3 +119,17 @@ func (banco Db_user) BuscarPorEmail(email string) (modelos.Usuario, error) {
 
 	return usuario, nil
 }
+
+func (banco Db_user) Seguir(usuarioID, seguidorID uint64) error {
+	statement, erro := banco.db.Prepare(queries.Q.SeguirUsuario)
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(usuarioID, seguidorID); erro != nil {
+		return erro
+	}
+
+	return nil
+}
