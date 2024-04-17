@@ -166,3 +166,22 @@ func (banco Db_user) BuscarSeguidores(usuarioID uint64) ([]modelos.Usuario, erro
 
 	return usuarios, nil
 }
+
+func (banco Db_user) BuscarSeguindo(usuarioID uint64) ([]modelos.Usuario, error) {
+	linhas, erro := banco.db.Query(queries.Q.BuscarSeguindo, usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+	defer linhas.Close()
+
+	var seguindoList []modelos.Usuario
+	for linhas.Next() {
+		var usuario modelos.Usuario
+		if erro = linhas.Scan(&usuario.ID, &usuario.Nome, &usuario.Nick, &usuario.Email, &usuario.CriadoEm); erro != nil {
+			return nil, erro
+		}
+		seguindoList = append(seguindoList, usuario)
+	}
+
+	return seguindoList, nil
+}

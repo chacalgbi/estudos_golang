@@ -10,6 +10,7 @@ type Queries struct {
 	SeguirUsuario      string
 	PararDeSeguir      string
 	BuscarSeguidores   string
+	BuscarSeguindo     string
 }
 
 // Postgres queries
@@ -33,4 +34,5 @@ var Q = Queries{
 	SeguirUsuario:      "INSERT ignore INTO seguidores (usuario_id, seguidor_id) VALUES (?, ?)",
 	PararDeSeguir:      "DELETE FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?",
 	BuscarSeguidores:   "SELECT u.id, u.nome, u.nick, u.email, u.criadoEm FROM usuarios u JOIN seguidores s ON u.id = s.seguidor_id WHERE s.usuario_id = ?",
+	BuscarSeguindo:     "SELECT u.id, u.nome, u.nick, u.email, u.criadoEm FROM usuarios u JOIN seguidores s ON u.id = s.usuario_id WHERE s.seguidor_id = ?",
 }

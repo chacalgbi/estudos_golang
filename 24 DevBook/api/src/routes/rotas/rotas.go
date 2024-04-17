@@ -64,6 +64,12 @@ var rotasUsuarios = []Rota{
 		Funcao:             controllers.BuscarSeguidores,
 		RequerAutenticacao: true,
 	},
+	{
+		URI:                "/usuarios/{usuarioId}/seguindo",
+		Metodo:             http.MethodGet,
+		Funcao:             controllers.BuscarSeguindo,
+		RequerAutenticacao: true,
+	},
 }
 
 func Configurar(r *mux.Router) *mux.Router {
