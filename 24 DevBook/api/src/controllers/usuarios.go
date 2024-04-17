@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"api/src/autenticacao"
 	"api/src/banco"
 	"api/src/modelos"
 	"api/src/repositorios"
 	"api/src/resposta"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -107,7 +109,10 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 	id, erro := strconv.ParseUint(params["usuarioId"], 10, 64)
 	if erro != nil {
 		resposta.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
 
+	if !compararId(id, w, r) {
 		return
 	}
 
@@ -152,6 +157,10 @@ func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !compararId(id, w, r) {
+		return
+	}
+
 	db, erro := banco.Conectar()
 	if erro != nil {
 		resposta.Erro(w, http.StatusInternalServerError, erro)
@@ -166,4 +175,21 @@ func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resposta.JSON(w, http.StatusNoContent, nil)
+}
+
+func compararId(id uint64, w http.ResponseWriter, r *http.Request) bool {
+	usuarioIDNotoken, erro := autenticacao.ExtrairUsuarioID(r)
+	if erro != nil {
+		resposta.Erro(w, http.StatusUnauthorized, erro)
+		return false
+	}
+
+	if id != usuarioIDNotoken {
+		fmt.Println("usuarioIDNotoken: ", usuarioIDNotoken)
+		fmt.Println("ID requisição: ", id)
+		resposta.Erro(w, http.StatusForbidden, errors.New("não é possível atualizar um usuário que não seja o seu"))
+		return false
+	}
+
+	return true
 }

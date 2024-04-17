@@ -2,12 +2,18 @@ package resposta
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func JSON(w http.ResponseWriter, status int, dados interface{}) {
 	w.WriteHeader(status)
+
+	fmt.Println("--------------------")
+	fmt.Println("Dados:  ", dados)
+	fmt.Println("Status: ", status)
+	fmt.Println("--------------------")
 
 	if dados != nil {
 		w.Header().Set("Content-Type", "application/json")
